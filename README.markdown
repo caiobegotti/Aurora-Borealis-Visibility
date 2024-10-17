@@ -61,6 +61,7 @@ pip install matplotlib
 
 ```
 ./ABV.py 2024
+open kp_index_2024.png
 ```
 
 <!-- TOC --><a name="tips"></a>
