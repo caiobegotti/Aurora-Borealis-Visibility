@@ -6,12 +6,13 @@
    * [Setup](#setup)
    * [Plot the aurora events, this is it!](#plot-the-aurora-events-this-is-it)
    * [Tips](#tips)
+- [Know more](#know-more)
 - [Cached data](#cached-data)
 - [Sources and credits](#sources-and-credits)
 
 <!-- TOC end -->
 
-ABV will graph aurora borealis visibility throughout years, with the planetary [_K_<sub>p</sub>-index](https://en.wikipedia.org/wiki/K-index) plotted and with decent thresholds.
+ABV will graph aurora borealis visibility throughout years, with the planetary [_K_<sub>p</sub>-index](https://en.wikipedia.org/wiki/K-index) plotted and with decent thresholds. Just you wait for 2025!
 
 This was created to show to my wife the best time of the year and annual average occurrences of auroras in the northern hemisphere, because she didn't believe me when I told her about the _K_<sub>p</sub>-index and multi year cycles of correlated sunspots etc. She wanted to see an aurora but nobody could tell her the best time nor place to go with minimal guarantee to see one.
 
@@ -76,6 +77,11 @@ pip install matplotlib
 	
 	Just note that `5x5` makes a pretty big image already hard to view in small monitors.
 
+<!-- TOC --><a name="know-more"></a>
+## Know more
+
+1. Kalman-filtered sunspots optimized forecasts, the best place to figure out whether your vacations are going to be ruined or not after generating graphs with ABV: [https://www.sidc.be/SILSO/ssngraphics](https://www.sidc.be/SILSO/ssngraphics) and [https://www.sidc.be/SILSO/predikfsc](https://www.sidc.be/SILSO/predikfsc) specifically.
+
 <!-- TOC --><a name="cached-data"></a>
 ## Cached data
 
@@ -86,4 +92,4 @@ The `cache` directory holds all available data since 1932 until the end of Q3 20
 
 The file `getKpindex.py` and respective data come from the [GFZ German Research Centre for Geosciences](https://kp.gfz-potsdam.de/en/data) (under CC BY 4.0).
 
-<!-- TOC Sunspots data is under CC BY-NC 4.0 license and comes from [WDC-SILSO, Royal Observatory of Belgium, Brussels](https://www.sidc.be/SILSO/datafiles). -->
+Sunspots data is under CC BY-NC 4.0 license and comes from [WDC-SILSO, Royal Observatory of Belgium, Brussels](https://www.sidc.be/SILSO/datafiles).
