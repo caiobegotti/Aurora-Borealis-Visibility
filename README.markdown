@@ -82,6 +82,8 @@ pip install matplotlib
 
 1. Kalman-filtered sunspots optimized forecasts, the best place to figure out whether your vacations are going to be ruined or not after generating graphs with ABV: [https://www.sidc.be/SILSO/ssngraphics](https://www.sidc.be/SILSO/ssngraphics) and [https://www.sidc.be/SILSO/predikfsc](https://www.sidc.be/SILSO/predikfsc) specifically.
 
+1. Solar cycle progressions from NOAA can be helpful when planning your vacations to places like Island or Norway too: [https://www.swpc.noaa.gov/products/solar-cycle-progression](https://www.swpc.noaa.gov/products/solar-cycle-progression) will make it clearer the relation between sunspots numbers and geomagnetic storms.
+
 <!-- TOC --><a name="cached-data"></a>
 ## Cached data
 
