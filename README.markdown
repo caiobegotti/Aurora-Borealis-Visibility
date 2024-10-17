@@ -18,7 +18,7 @@ This was created to show to my wife the best time of the year and annual average
 
 **There you have it:** pay attention to the roughly 7-years or 11-years long solar cycles suggested by the sunspots trend, plus streak of geomagnetic storms confirmed by _K_<sub>p</sub>-index above certain thresholds.
 
-![Graph example for 2024](example.png "Graph example for 2024").
+![Graph example for 2024](example.png "Graph example for 2024")
 
 I'm a complete ignorant and armchair nerd about this, so take it all with a sol-sized grain of salt.
 
