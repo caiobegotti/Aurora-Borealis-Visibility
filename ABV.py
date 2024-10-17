@@ -4,6 +4,8 @@
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+import numpy as np
+from scipy.interpolate import CubicSpline  # Use cubic spline for smoother interpolation
 import csv
 
 from getKpindex import getKpindex
@@ -14,7 +16,7 @@ import os
 import json
 
 # Constants
-KP_THRESHOLD = 5  # Threshold for KP Index to highlight
+KP_THRESHOLD = 5  # Threshold for Kp index to highlight
 CACHE_DIR = './cache'  # Directory to store cached data
 SUNSPOT_FILE = f'{CACHE_DIR}/SN_y_tot_V2.0.csv'  # Path to the sunspot CSV file
 
@@ -23,24 +25,24 @@ if not os.path.exists(CACHE_DIR):
     os.makedirs(CACHE_DIR)
 
 def load_or_fetch_kp_index(year):
-    """Load KP index data from a local JSON file or fetch from API if not cached."""
+    """Load Kp index data from a local JSON file or fetch from API if not cached."""
     cache_file = f'{CACHE_DIR}/kp_index_{year}.json'
 
     # Check if cache file exists
     if os.path.exists(cache_file):
-        print(f"Loading KP index data for {year} from cache...")
+        print(f"Loading Kp index data for {year} from cache")
         with open(cache_file, 'r') as f:
             data = json.load(f)
             times = [datetime.strptime(t, '%Y-%m-%dT%H:%M:%SZ') for t in data['times']]
             kp_index = data['kp_index']
             return times, kp_index
     else:
-        # Fetch KP index data from the API
-        print(f"Fetching KP index data for {year} from the API...")
+        # Fetch Kp index data from the API
+        print(f"Fetching Kp index data for {year} from the API")
         start_date = f'{year}-01-01'
         end_date = f'{year}-12-31'
 
-        # Get KP index data using the external script
+        # Get Kp index data using the external script
         times, kp_index, status = getKpindex(start_date, end_date, 'Kp', 'def')
 
         # Convert time strings to datetime objects
@@ -52,12 +54,13 @@ def load_or_fetch_kp_index(year):
 
         return times, kp_index
 
-def load_sunspot_data(year):
-    """Load sunspot data for a specific year from the CSV file."""
+def load_sunspot_data(start_year, end_year):
+    """Load sunspot data for a range of years from the CSV file."""
     if not os.path.exists(SUNSPOT_FILE):
         print(f"Sunspot data file not found: {SUNSPOT_FILE}")
         return None
 
+    sunspot_data = {}
     # Read the CSV file without skipping the header (since it's crude and headerless)
     with open(SUNSPOT_FILE, 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter=';')
@@ -65,56 +68,83 @@ def load_sunspot_data(year):
         for row in reader:
             row_year = float(row[0])  # Use float to capture the `.5`
             int_year = int(row_year)  # Convert to integer to ignore the `.5`
-            if int_year == year:
+            if start_year <= int_year <= end_year:
                 sunspot_value = float(row[1])  # Second column is the sunspot value
-                return sunspot_value
+                sunspot_data[int_year] = sunspot_value
 
-    # If the year is not found, return None
-    print(f"Sunspot data for year {year} not found.")
-    return None
+    return sunspot_data
 
 def plot_kp_index_for_year(year):
-    """Plot KP index for a specific year with local cache support and overlay sunspot data."""
-    # Load or fetch KP index data
+    """Plot Kp index for a specific year with local cache support and overlay sunspot data."""
+    # Load or fetch Kp index data
     times, kp_index = load_or_fetch_kp_index(year)
 
     # Debugging: Print the retrieved data length
-    print(f"Retrieved {len(times)} entries for year {year}.")
+    print(f"Retrieved {len(times)} entries for year {year}")
 
-    # Load sunspot data for the year
-    sunspot_value = load_sunspot_data(year)
-    if sunspot_value is None:
+    # Load sunspot data for the current year, the previous 5 years, and the next year
+    start_year = year - 5
+    next_year = year + 1  # Fetch the next year's value
+    sunspot_data = load_sunspot_data(start_year, next_year)
+
+    # Handle missing sunspot data
+    if not sunspot_data:
         print("Sunspot data not available, skipping sunspot plot.")
+        sunspot_data = {}  # Set to an empty dictionary to avoid future errors
+
+    # Get the sunspot values in the range [start_year, year] (cut off if sunspot data is missing for the current year)
+    sunspot_years = [yr for yr in range(start_year, year + 1) if yr in sunspot_data]  # Only use years with data
+    sunspot_values = [sunspot_data.get(yr) for yr in sunspot_years]  # Skip years without sunspot data
+
+    # Output sunspot value for logging (only if available for the current year)
+    if year in sunspot_data:
+        print(f"Sunspot value for {year}: {sunspot_data[year]}")
     else:
-        print(f"Sunspot value for {year}: {sunspot_value}")
+        print(f"No sunspot data available for {year}.")
+
+    # Handle next year's sunspot value with fallback to the current year if missing
+    next_year_sunspot = sunspot_data.get(next_year, sunspot_data.get(year, None))
+    if next_year_sunspot:
+        print(f"Next year sunspot: {next_year_sunspot}")
+    else:
+        print(f"No sunspot data available for {next_year}.")
+
+    # Use cubic spline interpolation for a smooth transition between sunspot values (if data exists)
+    if sunspot_years and sunspot_values:
+        cubic_spline = CubicSpline(np.linspace(0, len(times) - 1, len(sunspot_values)), sunspot_values)
+        sunspot_curve_y = cubic_spline(np.linspace(0, len(times) - 1, len(times)))
+    else:
+        sunspot_curve_y = None  # No sunspot data to plot
 
     # Prepare a figure with increased size for better visibility
     plt.figure(figsize=(20, 10))  # Larger figure size
 
-    # Plot all KP Index values (line) in light gray
+    # Plot all Kp Index values (line) in light gray
     plt.plot(times, kp_index, color='#dddddd', linewidth=0.5)  # Base line in light gray
 
     # Highlight values above threshold in blue and mark them with red dashes
     for i in range(len(kp_index)):
         if kp_index[i] > KP_THRESHOLD:
             plt.axvline(x=times[i], color='b', linewidth=3, zorder=3)  # Draw vertical line for values > threshold
-            # Add horizontal markers for the KP index level
+            # Add horizontal markers for the Kp index level
             plt.scatter([times[i]], [kp_index[i]], color='r', marker='o', zorder=5)  # Red markers
 
     # Keep the y-axis fixed at 0-9 as requested
     plt.ylim(0, 9)
 
-    # Overlay the sunspot line (purely visual, no effect on y-axis)
-    if sunspot_value is not None:
-        # We'll plot a line overlay across the entire graph, ignoring the y-axis scale
-        plt.plot(times, [7.5] * len(times), color='g', linewidth=2, linestyle='-', zorder=2)  # Overlay green line at constant y=7.5 for visibility
+    # Overlay the green line smoothly transitioning from 5 years ago to the input year (if sunspot data exists)
+    if sunspot_curve_y is not None:
+        scaled_curve_y = 9 * (sunspot_curve_y - min(sunspot_curve_y)) / (max(sunspot_curve_y) - min(sunspot_curve_y))
+        plt.plot(times, scaled_curve_y, color='g', linewidth=2, linestyle='-', zorder=2, label=f"Sunspot activity trend since {start_year}")
 
-    # Create custom legend handles for KP index and events (no legend for sunspot line)
-    line_handle = plt.Line2D([0], [0], color='b', linewidth=2, label='Good visibility days')
-    event_handle = plt.Line2D([0], [0], color='r', marker='o', linestyle='None', markersize=5, label='Events')
+    # Create custom legend handles for Kp index, sunspot, and events
+    base_line_handle = plt.Line2D([], [], color='#dddddd', linewidth=2, label="Magnetosphere disturbance")
+    line_handle = plt.Line2D([0], [0], color='b', linewidth=2, label=f'Good visibility days in {year}')
+    sunspot_handle = plt.Line2D([0], [0], color='g', linewidth=2, label=f'Sunspot activity trend since {start_year}' if sunspot_curve_y is not None else '')
+    event_handle = plt.Line2D([0], [0], color='r', marker='o', linestyle='None', markersize=5, label='Aurora events')
 
-    plt.title(f'Aurora borealis visibility in {year}')  # Dynamic year in title
-    plt.ylabel('Kp Index')
+    plt.title(f'Aurora borealis visibility throughout {year}')  # Dynamic year in title
+    plt.ylabel(r'$\it{K}_p$ index')  # K italic, p subscript, index lowercase
     plt.grid(axis='y')  # Enable only horizontal grid lines
 
     # Format the x-axis to show only the month and day, hide the year
@@ -131,8 +161,11 @@ def plot_kp_index_for_year(year):
     # Hide the x-axis label
     plt.xlabel('')
 
-    # Add a custom legend with a white background, no sunspot line legend
-    legend = plt.legend(handles=[line_handle, event_handle], loc='upper left', facecolor='#ffffff', framealpha=0.75)
+    # Add a custom legend with a white background, including the green line for sunspot activity
+    legend_handles = [base_line_handle, line_handle, event_handle]  # Only include the sunspot handle if data exists
+    if sunspot_curve_y is not None:
+        legend_handles.append(sunspot_handle)
+    legend = plt.legend(handles=legend_handles, loc='upper left', facecolor='#ffffff', framealpha=0.75)
     legend.get_frame().set_edgecolor('#000000')  # Add a border to the legend box
 
     # Save the plot as a PNG file without showing it
