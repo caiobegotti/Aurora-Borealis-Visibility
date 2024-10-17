@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-# license: MIT
-# author: caiobegotti
+# license: public domain
+# author: caio begotti
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
