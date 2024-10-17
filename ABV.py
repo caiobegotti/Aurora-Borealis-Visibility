@@ -10,6 +10,7 @@ import csv
 import sys
 import os
 import json
+from datetime import datetime, timedelta  # Import datetime to fix the NameError
 
 # Constants
 KP_THRESHOLD = 5  # Threshold for Kp index to highlight
@@ -55,10 +56,10 @@ def load_or_fetch_kp_index(year, quiet=False):
 
         return times, kp_index
 
-def load_sunspot_data(start_year, end_year):
+def load_sunspot_data(start_year, end_year, quiet=False):
     """Load sunspot data for a range of years from the CSV file."""
     if not os.path.exists(SUNSPOT_FILE):
-        print(f"Sunspot data file not found: {SUNSPOT_FILE}")
+        log(f"Sunspot data file not found: {SUNSPOT_FILE}", quiet)
         return None
 
     sunspot_data = {}
@@ -87,7 +88,7 @@ def plot_kp_index_for_year(year, quiet=False, clean=False):
     start_year = year - 5
     prev_year = year - 1  # Fetch the previous year's value
     next_year = year + 1  # Fetch the next year's value
-    sunspot_data = load_sunspot_data(start_year, next_year)
+    sunspot_data = load_sunspot_data(start_year, next_year, quiet)
 
     # Handle missing sunspot data
     if not sunspot_data:
@@ -177,7 +178,7 @@ def plot_kp_index_for_year(year, quiet=False, clean=False):
         # Add a custom legend with a white background, including the green line for sunspot activity
         legend_handles = [sunspot_handle, base_line_handle, line_handle, event_handle]  # Adjust order of handles
         legend = plt.legend(handles=legend_handles, loc='upper left', facecolor='#ffffff', framealpha=0.75)
-        legend.get_frame().setedgecolor('#000000')  # Add a border to the legend box
+        legend.get_frame().set_edgecolor('#000000')  # Add a border to the legend box
 
     # Save the plot as a PNG file without showing it
     file_name = f'kp_index_{year}.png'
@@ -188,17 +189,36 @@ def plot_kp_index_for_year(year, quiet=False, clean=False):
 
     log(f"Plot saved as {file_name}", quiet)
 
+def print_help():
+    """Print the help message for script usage."""
+    help_message = """
+    Usage: python script.py <YEAR> [--quiet] [--clean] [--help]
+
+    Options:
+    <YEAR>         The year for which the Kp index data should be plotted.
+    --quiet        Suppress all logs and outputs (quiet mode).
+    --clean        Hide the legend box on the plot (clean mode).
+    --help         Show this help message.
+    """
+    print(help_message)
+
 if __name__ == '__main__':
-    # Check for the --quiet and --clean flags
+    # Check for the --quiet, --clean, and --help flags
     quiet = '--quiet' in sys.argv
     clean = '--clean' in sys.argv
+    show_help = '--help' in sys.argv
 
-    # Remove --quiet and --clean from arguments
-    args = [arg for arg in sys.argv if arg not in ['--quiet', '--clean']]
+    # Remove --quiet, --clean, and --help from arguments
+    args = [arg for arg in sys.argv if arg not in ['--quiet', '--clean', '--help']]
+
+    # Show help message if --help is provided or no arguments are given
+    if show_help or len(args) == 1:
+        print_help()
+        sys.exit(0)
 
     # Check if the user provided a year argument
     if len(args) != 2:
-        print("Usage: python script.py <YEAR> [--quiet] [--clean]")
+        print("Usage: python script.py <YEAR> [--quiet] [--clean] [--help]")
         sys.exit(1)
 
     try:
