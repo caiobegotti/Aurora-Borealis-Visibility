@@ -5,6 +5,7 @@
 - [Running it](#running-it)
    * [Setup](#setup)
    * [Plot the aurora events, this is it!](#plot-the-aurora-events-this-is-it)
+      + [Caveats](#caveats)
    * [Tips](#tips)
 - [Know more](#know-more)
 - [Cached data](#cached-data)
@@ -63,6 +64,14 @@ pip install matplotlib
 ./ABV.py 2024
 open kp_index_2024.png
 ```
+
+<!-- TOC --><a name="caveats"></a>
+#### Caveats
+
+- the green trend line of sunspots doesn't match the scale of the rest of the graph, it's just informative
+- the red aurora events are just the meaningful geomagnetic storms recorded, it doesn't mean you can't see auroras below those dots, you definitely can but they won't be as spectacular
+- the solar cycles don't have peaks necessarily, their peak look more like the M letter being that a 3 years cycle can have a "bad" year in between with much less sunspots
+- once again, there is some correlation between sunspots and geomagnetic storms leading to auroras but such correlation is not strong enough to guarantee sights
 
 <!-- TOC --><a name="tips"></a>
 ### Tips
