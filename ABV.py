@@ -2,15 +2,16 @@
 # license: public domain
 # author: caio begotti
 
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-import numpy as np
-from scipy.interpolate import CubicSpline  # Use cubic spline for smoother interpolation
 import csv
-import sys
-import os
 import json
-from datetime import datetime, timedelta  # Import datetime to fix the NameError
+import os
+import sys
+from datetime import datetime, timedelta
+
+import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.interpolate import CubicSpline
 
 # Constants
 KP_THRESHOLD = 5  # Threshold for Kp index to highlight
@@ -30,6 +31,12 @@ def load_or_fetch_kp_index(year, quiet=False):
     """Load Kp index data from a local JSON file or fetch from API if not cached."""
     cache_file = f'{CACHE_DIR}/kp_index_{year}.json'
 
+    # Check if the year is in the future
+    current_year = datetime.now().year
+    if year > current_year:
+        log(f"Year {year} not supported by data or not current", quiet)
+        sys.exit(1)
+
     # Check if cache file exists
     if os.path.exists(cache_file):
         log(f"Loading Kp index data for {year} from cache", quiet)
@@ -39,22 +46,26 @@ def load_or_fetch_kp_index(year, quiet=False):
             kp_index = data['kp_index']
             return times, kp_index
     else:
-        # Fetch Kp index data from the API
-        log(f"Fetching Kp index data for {year} from the API", quiet)
-        start_date = f'{year}-01-01'
-        end_date = f'{year}-12-31'
+        try:
+            # Fetch Kp index data from the API
+            log(f"Fetching Kp index data for {year} from the API", quiet)
+            start_date = f'{year}-01-01'
+            end_date = f'{year}-12-31'
 
-        # Get Kp index data using the external script
-        times, kp_index, status = getKpindex(start_date, end_date, 'Kp', 'def')
+            # Get Kp index data using the external script
+            times, kp_index, status = getKpindex(start_date, end_date, 'Kp', 'def')
 
-        # Convert time strings to datetime objects
-        times = [datetime.strptime(t, '%Y-%m-%dT%H:%M:%SZ') for t in times]
+            # Convert time strings to datetime objects
+            times = [datetime.strptime(t, '%Y-%m-%dT%H:%M:%SZ') for t in times]
 
-        # Save the data to the cache file
-        with open(cache_file, 'w') as f:
-            json.dump({'times': [t.strftime('%Y-%m-%dT%H:%M:%SZ') for t in times], 'kp_index': kp_index}, f)
+            # Save the data to the cache file
+            with open(cache_file, 'w') as f:
+                json.dump({'times': [t.strftime('%Y-%m-%dT%H:%M:%SZ') for t in times], 'kp_index': kp_index}, f)
 
-        return times, kp_index
+            return times, kp_index
+        except NameError:
+            log(f"Year {year} not supported by data or not current", quiet)
+            sys.exit(1)
 
 def load_sunspot_data(start_year, end_year, quiet=False):
     """Load sunspot data for a range of years from the CSV file."""
