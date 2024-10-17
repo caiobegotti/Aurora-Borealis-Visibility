@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 # license: MIT
-# author:  caiobegotti
-# api:     https://kp.gfz-potsdam.de/en/data
-#
-# combine multiple years locally: montage kp_*.png -tile 7x7 -geometry +2+2 combined_image.png
+# author: caiobegotti
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
