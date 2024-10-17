@@ -92,4 +92,4 @@ The `cache` directory holds all available data since 1932 until the end of Q3 20
 
 The file `getKpindex.py` and respective data come from the [GFZ German Research Centre for Geosciences](https://kp.gfz-potsdam.de/en/data) (under CC BY 4.0).
 
-Sunspots data is under CC BY-NC 4.0 license and comes from [WDC-SILSO, Royal Observatory of Belgium, Brussels](https://www.sidc.be/SILSO/datafiles).
+[Sunspots data](https://www.sidc.be/SILSO/infosnytot) like `SN_y_tot_V2.0.csv` is under CC BY-NC 4.0 license and comes from [WDC-SILSO, Royal Observatory of Belgium, Brussels](https://www.sidc.be/SILSO/datafiles).
