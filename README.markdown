@@ -12,7 +12,7 @@
 
 <!-- TOC end -->
 
-ABV will graph aurora borealis visibility throughout years, with the planetary [_K_<sub>p</sub>-index](https://en.wikipedia.org/wiki/K-index) plotted and with decent thresholds. Just you wait for 2025!
+ABV will graph aurora borealis visibility throughout years, with the planetary [_K_<sub>p</sub>-index](https://en.wikipedia.org/wiki/K-index) plotted and with decent thresholds. Just you wait, the current 3 years period is fantastic!
 
 This was created to show to my wife the best time of the year and annual average occurrences of auroras in the northern hemisphere, because she didn't believe me when I told her about the _K_<sub>p</sub>-index and multi year cycles of correlated sunspots etc. She wanted to see an aurora but nobody could tell her the best time nor place to go with minimal guarantee to see one.
 
