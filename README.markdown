@@ -5,7 +5,7 @@
 - [Running it](#running-it)
    * [Setup](#setup)
    * [Plot the aurora events, this is it!](#plot-the-aurora-events-this-is-it)
-      + [Caveats](#caveats)
+      + [Notes and caveats](#notes-and-caveats)
    * [Tips](#tips)
 - [Know more](#know-more)
 - [Cached data](#cached-data)
@@ -13,7 +13,7 @@
 
 <!-- TOC end -->
 
-ABV will graph aurora borealis visibility throughout years, with the planetary [_K_<sub>p</sub>-index](https://en.wikipedia.org/wiki/K-index) plotted and with decent thresholds. It should also show the trend line of sunspots visible, which correlates with a better chance of seeing auroras in the upcoming year (or not). Just you wait, the current 3 years period is fantastic!
+ABV will graph aurora borealis visibility throughout years, with the planetary [_K_<sub>p</sub>-index](https://en.wikipedia.org/wiki/K-index) plotted and with decent thresholds. It should also show the trend line of sunspots visible, which correlates with a better chance of seeing auroras in the upcoming year (or not). Just you wait, the current 3 years period is looking fantastic...
 
 This was created to show to my wife the best time of the year and annual average occurrences of auroras in the northern hemisphere, because she didn't believe me when I told her about the _K_<sub>p</sub>-index and multi year cycles of correlated sunspots etc. She wanted to see an aurora but nobody could tell her the best time nor place to go with minimal guarantee to see one.
 
@@ -21,7 +21,7 @@ This was created to show to my wife the best time of the year and annual average
 
 ![Graph example for 2024](example.png "Graph example for 2024")
 
-I'm a complete ignorant and armchair nerd about this, so take it all with a sol-sized grain of salt.
+I'm a complete ignorant and armchair nerd about this, so take it all with a sol-sized grain of salt. This is all informative and nice and cool, but that's about it.
 
 <!-- TOC --><a name="running-it"></a>
 ## Running it
@@ -65,13 +65,14 @@ pip install matplotlib
 open kp_index_2024.png
 ```
 
-<!-- TOC --><a name="caveats"></a>
-#### Caveats
+<!-- TOC --><a name="notes-and-caveats"></a>
+#### Notes and caveats
 
 - the green trend line of sunspots doesn't match the scale of the rest of the graph, it's just informative
 - the red aurora events are just the meaningful geomagnetic storms recorded, it doesn't mean you can't see auroras below those dots, you definitely can but they won't be as spectacular
-- the solar cycles don't have peaks necessarily, their peak look more like the M letter being that a 3 years cycle can have a "bad" year in between with much less sunspots
+- the solar cycles don't have peaks necessarily, their peak looks more like the M letter being that a 3 years cycle can have a "bad" year in between with much less sunspots
 - once again, there is some correlation between sunspots and geomagnetic storms leading to auroras but such correlation is not strong enough to guarantee sights
+- right after the equinox dates in the northern hemisphere is when auroras start to look really beautiful so the period is shown as a reminder
 
 <!-- TOC --><a name="tips"></a>
 ### Tips
