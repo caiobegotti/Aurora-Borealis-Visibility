@@ -6,13 +6,15 @@ import csv
 import json
 import os
 import sys
+
 from datetime import datetime, timedelta
+from getKpindex import getKpindex
+from matplotlib import rcParams
+from scipy.interpolate import CubicSpline
 
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.interpolate import CubicSpline
-from matplotlib import rcParams
 
 # constants
 KP_THRESHOLD = 5
@@ -52,8 +54,8 @@ def load_or_fetch_kp_index(year, quiet=False):
                 json.dump({'times': [t.strftime('%Y-%m-%dT%H:%M:%SZ') for t in times], 'kp_index': kp_values}, f)
 
             return times, kp_values
-        except Exception:
-            log(f"Error fetching Kp index data for {year}.", quiet)
+        except Exception as error:
+            log(f"Error fetching Kp index data for {year}: {error}", quiet)
             sys.exit(1)
 
 def load_sunspot_data(start_year, end_year, quiet=False):
