@@ -28,7 +28,7 @@ def log(message, quiet=False):
     if not quiet:
         print(message)
 
-def load_or_fetch_kp_index(year, quiet=False):
+def load_or_fetch_kp_index(year, quiet=False, refresh=False):
     cache_file = f'{CACHE_DIR}/kp_index_{year}.json'
 
     current_year = datetime.now().year
@@ -36,7 +36,7 @@ def load_or_fetch_kp_index(year, quiet=False):
         log(f"Year {year} not supported by data or not current", quiet)
         sys.exit(1)
 
-    if os.path.exists(cache_file):
+    if os.path.exists(cache_file) and not refresh:
         log(f"Loading Kp index data for {year} from cache", quiet)
         with open(cache_file, 'r') as f:
             data = json.load(f)
@@ -76,8 +76,8 @@ def load_sunspot_data(start_year, end_year, quiet=False):
 
     return sunspot_data
 
-def plot_kp_index_for_year(year, quiet=False, clean=False):
-    times, kp_values = load_or_fetch_kp_index(year, quiet)
+def plot_kp_index_for_year(year, quiet=False, simplified=False, refresh=False):
+    times, kp_values = load_or_fetch_kp_index(year, quiet, refresh)
 
     log(f"Retrieved {len(times)} entries for year {year}", quiet)
 
@@ -149,7 +149,7 @@ def plot_kp_index_for_year(year, quiet=False, clean=False):
     plt.gca().xaxis.set_major_locator(plt.MaxNLocator(nbins=365, integer=True)) # allow for all ticks with spacing
     plt.xlim([times[0] - timedelta(days=1), times[-1] + timedelta(days=1)]) # adding padding on the x-axis
 
-    if not clean:
+    if not simplified:
         legend_handles = [
             plt.Line2D([0], [0], color='#dddddd', linewidth=5, label="Magnetosphere disturbance"),
             plt.Line2D([0], [0], color='#AFE1AF', linewidth=5, label=f'Sunspots trend between {start_year}-today'),
@@ -167,12 +167,13 @@ def plot_kp_index_for_year(year, quiet=False, clean=False):
 
 def print_help():
     help_message = """
-    Usage: python script.py <YEAR> [--quiet] [--clean] [--help]
+    Usage: python script.py <YEAR> [--quiet] [--simplified] [--refresh] [--help]
 
     Options:
     <YEAR>         The year for which the Kp index data should be plotted.
-    --quiet        Suppress all logs and outputs (quiet mode).
-    --clean        Hide the legend box on the plot (clean mode).
+    --quiet        Suppress all logs and outputs.
+    --simplified   Hide the legend box on the plot, makes graphs bigger.
+    --refresh      Force fetching the remote data (refreshing local cache).
     --help         Show this help message.
     """
     print(help_message)
@@ -182,17 +183,18 @@ if __name__ == '__main__':
         print_help()
         sys.exit(0)
 
-    quiet = '--quiet' in sys.argv
-    clean = '--clean' in sys.argv
-    args = [arg for arg in sys.argv if arg not in ['--quiet', '--clean', '--help']]
+    quiet       = '--quiet' in sys.argv
+    simplified  = '--simplified' in sys.argv
+    refresh     = '--refresh' in sys.argv
+    args = [arg for arg in sys.argv if arg not in ['--quiet', '--simplified', '--refresh', '--help']]
 
     if len(args) != 2:
-        print("Usage: python script.py <YEAR> [--quiet] [--clean] [--help]")
+        print("Usage: python script.py <YEAR> [--quiet] [--simplified] [--refresh] [--help]")
         sys.exit(1)
 
     try:
         YEAR = int(args[1])
-        plot_kp_index_for_year(YEAR, quiet=quiet, clean=clean)
+        plot_kp_index_for_year(YEAR, quiet=quiet, simplified=simplified, refresh=refresh)
     except ValueError:
         print("Please provide a valid year (e.g., 2022).")
         sys.exit(1)
