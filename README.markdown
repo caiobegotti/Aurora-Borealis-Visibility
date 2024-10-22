@@ -97,6 +97,8 @@ open kp_index_2024.png
 
 1. Solar cycle progressions from NOAA can be helpful when planning your vacations to places like Island or Norway too: [https://www.swpc.noaa.gov/products/solar-cycle-progression](https://www.swpc.noaa.gov/products/solar-cycle-progression) will make it clearer the relation between sunspots numbers and geomagnetic storms.
 
+1. I can also recommend checking out [UAF's aurora forecasts](https://www.gi.alaska.edu/monitors/aurora-forecast) for long term predictions which may be simpler to grasp.
+
 <!-- TOC --><a name="cached-data"></a>
 ## Cached data
 
