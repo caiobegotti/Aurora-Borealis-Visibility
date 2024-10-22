@@ -13,15 +13,15 @@
 
 <!-- TOC end -->
 
-ABV will graph aurora borealis visibility throughout years, with the planetary [_K_<sub>p</sub>-index](https://en.wikipedia.org/wiki/K-index) plotted and with decent thresholds. It should also show the trend line of sunspots visible, which correlates with a better chance of seeing auroras in the upcoming year (or not). Just you wait, the current 3 years period is looking fantastic...
+ABV will graph aurora borealis visibility throughout years, with the planetary [_K_<sub>p</sub>-index](https://en.wikipedia.org/wiki/K-index) plotted and with decent thresholds. It should also show the trend line of sunspots visible, which correlates with a better chance of seeing auroras in the upcoming year (or not). If the year is not over yet it will even try to be smart enough and pull forecast data and plot it for your convenience.
 
-This was created to show to my wife the best time of the year and annual average occurrences of auroras in the northern hemisphere, because she didn't believe me when I told her about the _K_<sub>p</sub>-index and multi year cycles of correlated sunspots etc. She wanted to see an aurora but nobody could tell her the best time nor place to go with minimal guarantee to see one.
-
-**There you have it:** pay attention to the roughly 7-years or 11-years long solar cycles suggested by the sunspots trend, plus streak of geomagnetic storms confirmed by _K_<sub>p</sub>-index above certain thresholds.
+Basically this was created to show my wife the best time of the year and annual average occurrences of auroras in the northern hemisphere, because she didn't believe me when I told her about the _K_<sub>p</sub>-index and multi year cycles of correlated sunspots etc. She wanted to see an aurora but nobody could tell her the best time nor place to go with minimal guarantee to see one.
 
 ![Graph example for 2024](example.png "Graph example for 2024")
 
-I'm a complete ignorant and armchair nerd about this, so take it all with a sol-sized grain of salt. This is all informative and nice and cool, but that's about it.
+**There you have it:** pay attention to the roughly 7-years or 11-years long solar cycles suggested by the sunspots trend, plus streak of geomagnetic storms confirmed by _K_<sub>p</sub>-index above certain thresholds. Just you wait, the current 3 years period is looking fantastic...
+
+**All that said**: I'm a complete ignorant and armchair nerd about such things, so take it all with a sol-sized grain of salt. This is all informative and nice and cool, but that's about it.
 
 <!-- TOC --><a name="running-it"></a>
 ## Running it
