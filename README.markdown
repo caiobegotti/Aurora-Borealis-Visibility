@@ -61,8 +61,22 @@ pip install matplotlib
 ### Plot the aurora events, this is it!
 
 ```
-./ABV.py 2024
-open kp_index_2024.png
+$ ./ABV.py 2024
+$ open kp_index_2024.png
+```
+
+```
+$ ./ABV.py --help
+
+    Usage: python script.py <YEAR> [--quiet] [--simplified] [--refresh] [--help]
+
+    Options:
+    <YEAR>         The year for which the Kp index data should be plotted.
+    --quiet        Suppress all logs and outputs.
+    --simplified   Hide the legend box on the plot, makes graphs bigger.
+    --refresh      Force fetching the remote data (refreshing local cache).
+    --help         Show this help message.
+
 ```
 
 <!-- TOC --><a name="notes-and-caveats"></a>
