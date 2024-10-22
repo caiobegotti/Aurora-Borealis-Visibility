@@ -87,6 +87,7 @@ $ ./ABV.py --help
 - the solar cycles don't have peaks necessarily, their peak looks more like the M letter being that a 3 years cycle can have a "bad" year in between with much less sunspots
 - once again, there is some correlation between sunspots and geomagnetic storms leading to auroras but such correlation is not strong enough to guarantee sights
 - right after the equinox dates in the northern hemisphere is when auroras start to look really beautiful so the period is shown as a reminder
+- forecasted data may show up wrong, be incomplete and might not respect visibility thresholds
 
 <!-- TOC --><a name="tips"></a>
 ### Tips
