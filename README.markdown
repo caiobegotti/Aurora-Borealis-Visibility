@@ -94,7 +94,7 @@ $ ./ABV.py --help
 
 1. Download all available years at once, updates local cache:
 	```
-	for y in $(seq 1932 2024); do ./ABV.py ${y} --quiet; done
+	for y in $(seq 1932 2024); do ./ABV.py ${y} --quiet --refresh; done
 	```
 
 1. Combine multiple years locally so you can visualize them together, say, using the data between 2010 and today. You will need the montage command from ImageMagick, likely via `brew install imagemagick` on macOS:
